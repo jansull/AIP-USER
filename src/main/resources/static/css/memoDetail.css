@@ -1,0 +1,71 @@
+.allDetailSec{
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+
+}
+
+.detailSection{
+    width: inherit;
+    margin-left: inherit;
+}
+
+.detailId {
+     display:flex;
+     margin-top: 1.5%;
+     padding-bottom: 1%;
+     font-weight: bolder;
+}
+
+.detailNameTime{
+     display:flex;
+     justify-content: space-between;
+     padding-bottom: 8%;
+     font-weight: bolder;
+}
+
+.detailContents{
+    border: 1px solid blue;
+    width: inherit;
+    height: 50vh;
+    margin-left: inherit;
+    padding: 10px;
+    word-wrap: break-word;
+}
+
+.modifyButtons{
+    width: 100%;
+    display:flex;
+    justify-content: space-between;
+    margin-top: 1%;
+}
+
+.backButton {
+     background-color: white; /** 버튼 내부 색상 */
+     border: 0.5px solid blue; /** 테두리 설정 */
+     border-radius: 5px; /** 모서리를 둥글게 만듦 */
+     padding: 20px 10px; /** 내부 여백 */
+     display: inline-block; /** 인라인 요소로 표시 */
+     cursor: pointer; /** 마우스를 올렸을 때 포인터 커서로 변경 */
+     color: blue; /** 글자색 */
+     text-align: center; /** 텍스트 가운데 정렬 */
+     text-decoration: none; /** 밑줄 제거 */
+     font-size: 100%;
+     line-height: 0.3; /** 텍스트 라인 높이 설정 */
+     transition: background-color 0.3s, color 0.3s; /** 호버 효과를 위한 전환 효과 */
+}
+
+.modifyButton {
+        background-color: white; /** 버튼 내부 색상 */
+        border: 0.5px solid red; /** 테두리 설정 */
+        border-radius: 5px; /** 모서리를 둥글게 만듦 */
+        padding: 10px 10px; /** 내부 여백 */
+        display: inline-block; /** 인라인 요소로 표시 */
+        cursor: pointer; /** 마우스를 올렸을 때 포인터 커서로 변경 */
+        color: red; /** 글자색 */
+        text-align: center; /** 텍스트 가운데 정렬 */
+        text-decoration: none; /** 밑줄 제거 */
+        font-size: 100%;
+        line-height: 0.3; /** 텍스트 라인 높이 설정 */
+        transition: background-color 0.3s, color 0.3s; /** 호버 효과를 위한 전환 효과 */
+}

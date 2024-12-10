@@ -1,0 +1,24 @@
+.dashboardMemoBoard{
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
+
+.dashMemoNameDate{
+    border-top: 1px solid lightblue;
+    border-bottom: 1px solid lightblue;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display:flex;
+    justify-content: space-between;
+    margin: 15px;
+}
+
+.memoName{
+    font-weight: bold;
+}
+
+.dashMemoContents {
+    text-align: left;
+    text-indent: 5%;
+    word-wrap: break-word;
+}

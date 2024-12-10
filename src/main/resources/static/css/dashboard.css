@@ -1,0 +1,128 @@
+main-cell {
+    height: 100%;
+}
+
+.dashboard-body {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-rows: repeat(2, 47%);
+    grid-gap: 4% 1%;
+    grid-template-areas:
+        'count memo'
+        'chart chart';
+    height: 100%;
+}
+
+.dashboard-count {
+    grid-area: count;
+    /**background-color: red;*/
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 50%);
+    grid-gap: 10px;
+
+}
+
+.countBox {
+    width: 90%;
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.countBox button{
+    border-radius: 10px; /** 모서리를 둥글게 */
+    background-color: rgba(255, 255, 255, 0.4); /** 백그라운드 투명도 조절 */
+    padding: 3px 15px;
+    color: white;
+    border: 0px solid rgba(255, 255, 255, 0.4);;
+}
+
+.countBox:nth-of-type(1) {
+
+    background-color: #FF5533;
+    border-radius: 5px;
+    padding-top: 15px;
+    /** square안의 글자 간격 */
+    color: white;
+    /** 글자 색상을 흰색으로 설정 */
+}
+
+.countBox:nth-of-type(2) {
+
+    background-color: #000000;
+    border-radius: 5px;
+    padding-top: 15px;
+    /** square 안의 글자 간격 */
+    color: white;
+    /** 글자 색상을 흰색으로 설정 */
+}
+
+.countBox:nth-of-type(3) {
+
+    background-color: #1D50B9;
+    border-radius: 5px;
+    padding-top: 15px;
+    /** square 안의 글자 간격 */
+    color: white;
+    /** 글자 색상을 흰색으로 설정 */
+}
+
+.countBox:nth-of-type(4) {
+
+    background-color: #1D50B9;
+    border-radius: 5px;
+    padding-top: 15px;
+    /** square 안의 글자 간격 */
+    color: white;
+    /** 글자 색상을 흰색으로 설정 */
+}
+
+.countBox:nth-of-type(5) {
+
+    background-color: #FF5533;
+    border-radius: 5px;
+    padding-top: 15px;
+    /** square 안의 글자 간격 */
+    color: white;
+    /** 글자 색상을 흰색으로 설정 */
+}
+
+.countBox:nth-of-type(6) {
+
+    background-color: #000000;
+    border-radius: 5px;
+    padding-top: 15px;
+    /** square 안의 글자 간격 */
+    color: white;
+    /** 글자 색상을 흰색으로 설정 */
+}
+
+
+
+
+.dashboard-chart {
+    grid-area: chart;
+
+}
+
+.dashboardMemoBoard {
+    height: 100%;
+    width: 100%;
+    grid-area: memo;
+    background-color: white;
+    border: 1px solid #E5E9F0;
+    padding: 5px;
+    max-height: 318px;
+}
+
+.rectangle p {
+    margin: 0;
+}
+
+
+
+

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/pageSample.css}" rel="stylesheet">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link th:href="@{/css/dashBoardChart.css}" rel="stylesheet">
+    <link th:href="@{/css/dashBoardMemo.css}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/047f82d071.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> <!-- 차트 api -->
+</head>
+<body>
+<header class="header-nav">
+        <span class="header-flex-box header-logo">
+
+            <span class="sidebar-action-border">
+                <img th:src="@{/img/header_sidebar.png}" id="sidebar-action-icon">
+            </span>
+            <a href="/dashboard">AIP System</a>
+        </span>
+
+    <span class="header-pageName header-flex-box" >Dashboard</span><!-- 현재 페이지 이름 -->
+
+    <span class="header-flex-box">
+            <span class="header-flex-three">
+                <span class="header-icon">
+                    <a href="/pdf/aip_20240221.pdf" target="_blank"><img th:src="@{/img/help.png}" id="help_icon"></a>
+                    <a href="/chartDetail"><img th:src="@{/img/chart.png}" id="chart_icon"></a>
+                    <a href="/memo/paging"><img th:src="@{/img/memo.png}" id="memo_icon"></a>
+                </span>
+                <img th:src="@{/img/profileImg.png}" id="profile-img">
+                <span id="submenu-trigger">
+                    <a href="#">Nacamora</a>
+                    <div id="submenu">
+                        <a href="/user/update">비밀번호 변경</a>
+                        <a href="/logout">로그아웃</a>
+                    </div>
+                </span>
+            </span>
+        </span>
+</header>
+<div class="main-cell">
+    <div class="dashboard-body">
+        <div class="dashboard-count">
+            <div class="countBox count-1">
+                <div><span th:text="${month}"></span>월</div>
+                <div>자동 결제 오류</div>
+                <div th:text="${autoError}"></div>
+                <button onclick="autoError()">View All</button>
+            </div>
+
+            <div class="countBox count-2">
+                <div><span th:text="${month}"></span>월</div>
+                <div>자동 결제 성공</div>
+                <div th:text="${autoSuccess}"></div>
+                <button onclick="autoSuccess()">View All</button>
+            </div>
+
+            <div class="countBox count-3">
+                <div><span th:text="${month}"></span>월</div>
+                <div>자동 결제 불가</div>
+                <div th:text="${autoStop}"></div>
+                <button onclick="autoStop()">View All</button>
+            </div>
+
+            <div class="countBox count-4">
+                <div><span th:text="${month}"></span>월</div>
+                <div>자동 결제 건 수</div>
+                <div th:text="${autoAll}"></div>
+                <button onclick="autoAll()">View All</button>
+            </div>
+            <div class="countBox count-5">
+                <div><span th:text="${month}"></span>월</div>
+                <div>결제 신규 등록</div>
+                <div th:text="${paymentInsertThisMonth}"></div>
+                <button onclick="redirectToCurrentMonthLink()">View All</button>
+            </div>
+            <div class="countBox count-6">
+                <div><span th:text="${month}"></span>월</div>
+                <div>결제 성공</div>
+                <div th:text="${paymentSuccessCount}"></div>
+                <button onclick="redirectToCurrentMonthSuccess()">View All</button>
+            </div>
+
+        </div>
+        <div class="dashboardMemoBoard">
+            Memo board<a href="/memo/paging" target="_blank"> > </a>
+
+            <div th:each="memo: ${MemoList}"  >
+               <div th:if="${memo.memoExposeYn} == 'Y'">
+
+               <div class="dashMemoNameDate">
+                <span class="memoName" th:text="${memo.UserName}"></span>
+                <span  th:text="*{#temporals.format(memo.CreateAt, 'yyyy-MM-dd hh:mm')}"></span>
+               </div>
+
+               <div class="dashMemoContents">
+                   <span th:text="${memo.MemoContents}"></span>
+               </div>
+               </div>
+            </div>
+        </div>
+        <div class="dashboard-chart">
+            <div class="chart-box">
+                <div class="chart-header">
+                    <span id="chart-title">결제 처리 통계</span>
+                    <span class="tab-bar">
+                        <span id="monthChart" class="tab-btn active" onclick="openTab('chartMonth')">Month</span>
+                        <span id="yearChart" class="tab-btn" onclick="openTab('chartYear')">Year</span>
+                    </span>
+                </div>
+                <div id="chartMonth" class="tab-content active">
+                    <apexchart type="line" height="200px" width="600px" :options="chartOptions" :series="series"></apexchart>
+                </div>
+                <div id="chartYear" class="tab-content">
+                    <apexchart type="line" height="200px" width="600px" :options="chartOptions" :series="series"></apexchart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<aside>
+    <span id="sidebar">
+        <nav>
+            <ul class="sidebar-ul">
+                <li onclick="location.href='/dashboard'" > <!-- 현재 페이지 의 해당하는 span 태그에 style="color: blue;" 써주세여  -->
+                    <span class="nowPage">
+                        <img th:src="@{/img/sidebar_dashboard.png}" id="sidebar_dashboard_icon">
+                        <span class="sidebar-nav-text">DashBoard</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </li>
+                <li onclick="location.href='/insert_form'">
+                    <span>
+                        <img th:src="@{/img/sidebar_card.png}" id="sidebar_card_icon">
+                        <span class="sidebar-nav-text">결제등록</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </li>
+                <li id="payList-toggle">
+                    <span>
+                        <img th:src="@{/img/sidebar_payList.png}" id="sidebar_payList_icon">
+                        <span class="sidebar-nav-text">결제목록</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </li>
+                <li class="payList-nav" onclick="location.href='/list'">
+                    <span class="payList">
+                        <i class="fa-solid fa-square fa-2xs"></i>
+                        <span class="sidebar-nav-text">전체 결제 목록</span>
+                    </span>
+                    <!-- <i class="fa-solid fa-chevron-right"></i> -->
+                </li>
+                <li class="payList-nav" onclick="location.href='/autoList'">
+                    <span class="payList">
+                        <i class="fa-solid fa-square fa-2xs"></i>
+                        <span class="sidebar-nav-text" >자동 결제 목록</span>
+                    </span>
+                    <!-- <i class="fa-solid fa-chevron-right"></i> -->
+                </li>
+            </ul>
+        </nav>
+    </span>
+</aside>
+</body>
+<script th:inline="javascript">
+    let monthData = [[${monthChartList}]]; // Month Chart Data
+    let yearData = [[${yearChartList}]]; // Year Chart Data
+</script>
+<script th:src="@{/js/pageSample.js}"></script>
+<script th:src="@{/js/dashBoardChart.js}"></script>
+<script th:src="@{/js/dashBoardCount.js}"></script>
+
+</html>

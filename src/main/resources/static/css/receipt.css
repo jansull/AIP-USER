@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.receipt-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+#paymentTitle{
+    width: 100%;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0px;
+}
+
+.receipt-box {
+    border: 2px solid #E5E9F0;
+    padding: 5% 8%;
+    max-width: 600px;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.receipt-box > div {
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.tdTitle{
+    background-color: #f2f2f2;
+    font-weight: bold;
+    width: 30%;
+}
+
+.card-totalAmount {
+    font-weight: bold;
+}
+
+#card-company {
+
+    font-weight: bold;
+
+}
+
+.card-method {
+    font-style: italic;
+}
+
+.receipt-box{
+    position: relative;
+}
+
+.backIcon{
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+
+

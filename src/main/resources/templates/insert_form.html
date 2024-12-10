@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/pageSample.css}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/047f82d071.js" crossorigin="anonymous"></script>
+    <link th:href="@{/css/insert_form.css}" rel="stylesheet">
+</head>
+<body>
+<header class="header-nav">
+        <span class="header-flex-box header-logo">
+
+            <span class="sidebar-action-border">
+                <img th:src="@{/img/header_sidebar.png}" id="sidebar-action-icon">
+            </span>
+            <a href="/dashboard">AIP System</a>
+        </span>
+
+    <span class="header-pageName header-flex-box" >결제 등록</span><!-- 현재 페이지 이름 -->
+
+    <span class="header-flex-box">
+            <span class="header-flex-three">
+                <span class="header-icon">
+                    <a href="#"><img th:src="@{/img/help.png}" id="help_icon"></a>
+                    <a href="#"><img th:src="@{/img/chart.png}" id="chart_icon"></a>
+                    <a href="#"><img th:src="@{/img/memo.png}" id="memo_icon"></a>
+                </span>
+                <img th:src="@{/img/profileImg.png}" id="profile-img">
+                <span id="submenu-trigger">
+                    <a href="#">Nacamora</a>
+                    <div id="submenu">
+                        <a href="#">정보 변경</a>
+                        <a href="#">비밀번호 변경</a>
+                        <a href="/logout">로그아웃</a>
+                    </div>
+                </span>
+            </span>
+        </span>
+</header>
+<main>
+    <form class="basic-form" id="paymentForm">
+        <div class="main-cell">
+            <div class="basic-main">
+                <div class="basic-header">
+                    <div>
+                        <span>결제등록</span>
+                    </div>
+                    <div>
+                        <button type="button" id="before" onclick="load()">이전저장글</button>
+                        <button type="button" onclick="save()">임시저장</button>
+                    </div>
+                </div>
+                <div class="basic-body">
+                    <div class="basic-one">
+                        <div class="basic-title">기본정보 등록</div>
+                    </div>
+                    <div class="basic-one">
+                        <div class="basic-title">고객명</div>
+                        <div class="basic-input-text">
+                            <label><input type="text" id="customerName" name="customerName"></label>
+                        </div>
+                        <div class="basic-title">이메일</div>
+                        <div class="basic-input-text">
+                            <label><input type="text" id="customerEmail" name="customerEmail"></label>
+                        </div>
+                    </div>
+                    <div class="basic-one">
+                        <div class="basic-title">연락처</div>
+                        <div class="basic-input-text">
+                            <input type="text" id="customerPhone" name="customerPhone">
+                            <!--3등분 하고 js 에서 합쳐서 서버 전송 숫자11자리 바꿔야함-->
+                        </div>
+                        <div class="basic-title">주소</div>
+                        <div class="basic-input-text">
+                            <label><input type="text" id="customerAddress" name="customerAddress"></label>
+                        </div>
+                    </div>
+                    <div class="basic-one">
+                        <div class="basic-title2">제목</div>
+                        <div class="basic-input-text2">
+                            <label><input type="text" id="paymentTitle" name="paymentTitle"></label>
+                        </div>
+                    </div>
+                    <div class="basic-one">
+                        <div class="basic-title">결제 설정</div>
+                        <div class="basic-input-checkbox">
+                            <span>
+                                <label><input type="checkbox" id="paymentType" name="paymentType" value="자동결제" onclick="cycle()"></label>
+                            </span>
+                            자동결제
+                            <span>
+                                <button data-tooltip="도움말어쩌구저쩌구" type="button" class="helpBtn">!</button>
+                            </span>
+                            <span>
+                                <label><input type="checkbox" id="firstPay_check" name="firstPay_check" disabled></label>
+                            </span>
+                            처음결제금액
+                            <span>
+                                <label><button data-tooltip="도움말어쩌구저쩌구" type="button" class="helpBtn">!</button></label>
+                            </span>
+                        </div>
+                        <div class="basic-title">결제구분</div>
+                        <div class="basic-input-checkbox2">
+                            <div class="text">
+                                <span >
+                                    <label><input type="radio" name='paymentBizTo' value='BtoC' checked/></label>
+                                </span>
+                                <span>
+                                    B TO C
+                                </span>
+                            </div>
+                            <div>
+                                <span>
+                                    <label><input type='radio' name='paymentBizTo' value='BtoB'/></label>
+                                </span>
+                                <span>
+                                    B TO B
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="basic-one">
+                        <div class="basic-title2">자동결제 주기</div>
+                        <div class="basic-input-selectBox">
+                            <label><select class="paymentMonth" id="paymentMonth" name="paymentMonth" disabled>
+                                <option>다음달</option>
+                                <option>다다음달</option>
+                            </select></label>
+
+                            <label><input type="text" id="autoDate" name="autoDate" disabled>&nbsp;일</label>
+                            <label><input type="text" id="paymentFirstPay" name="paymentFirstPay" disabled>&nbsp;엔</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="basic-footer">
+                    <div class="basic-footer-header">
+                        <span>결제 물품 정보 등록</span>
+                        <span>
+                            <button type="button" onclick="addRow()">+행추가</button>
+                            <button type="button" id="deleteRow_btn" onclick='deleteRow(-1)' disabled>-행삭제</button>
+                        </span>
+                    </div>
+                    <div class="basic-footer-table">
+                        <table id="product">
+                            <tbody>
+                            <tr class="tHead">
+                                <th>
+                                    <input type="checkbox" id="masterCheckbox">
+                                        <label for="masterCheckbox"></label>
+                                </th>
+                                <th>상품명</th>
+                                <th>수량</th>
+                                <th>단가</th>
+                                <th>금액</th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="checkbox"><label for="checkbox"></label>
+                                </th>
+                                <th>
+                                    <input type=text id="productName" name="productName"><label for="productName"></label>
+                                </th>
+                                <th>
+                                    <input type="text" id="productTotalItems" name="productTotalItems"
+                                           oninput="updateTotalItems(this.parentNode.parentNode)">
+                                    <label for="productTotalItems"></label>
+                                </th>
+                                <th>
+                                <input type="text" id="productPrice" name="productPrice"
+                                           oninput="updatePrice(this.parentNode.parentNode)">
+                                <label for="productPrice"></label>
+                                </th>
+                                <th>
+                                <input type="text" id="productAmount" name="productAmount" readonly><label for="productAmount"></label>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th>합계</th>
+                                <th id="totalTotalItems"></th>
+                                <th id="totalPrice"></th>
+                                <th id="final"></th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="basic-real-footer">
+                        <button type="button" onclick="send()">등록</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</main>
+<aside>
+    <span id="sidebar">
+        <nav>
+            <ul class="sidebar-ul">
+                <li onclick="location.href='/dashboard'" > <!-- 현재 페이지 의 해당하는 span태그에 style="color: blue;" 써주세여  -->
+                    <span>
+                        <img th:src="@{/img/sidebar_dashboard.png}" id="sidebar_dashboard_icon">
+                        <span class="sidebar-nav-text">DashBoard</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </li>
+                <li onclick="location.href='/insert_form'">
+                    <span class="nowPage">
+                        <img th:src="@{/img/sidebar_card.png}" id="sidebar_card_icon">
+                        <span class="sidebar-nav-text">결제등록</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </li>
+                <li id="payList-toggle">
+                    <span>
+                        <img th:src="@{/img/sidebar_payList.png}" id="sidebar_payList_icon">
+                        <span class="sidebar-nav-text">결제목록</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </li>
+                <li class="payList-nav" onclick="location.href='/list'">
+                    <span class="payList">
+                        <i class="fa-solid fa-square fa-2xs"></i>
+                        <span class="sidebar-nav-text">전체 결제 목록</span>
+                    </span>
+                    <!-- <i class="fa-solid fa-chevron-right"></i> -->
+                </li>
+                <li class="payList-nav" onclick="location.href='/autoList'">
+                    <span class="payList">
+                        <i class="fa-solid fa-square fa-2xs"></i>
+                        <span class="sidebar-nav-text" >자동 결제 목록</span>
+                    </span>
+                    <!-- <i class="fa-solid fa-chevron-right"></i> -->
+                </li>
+            </ul>
+        </nav>
+    </span>
+</aside>
+</body>
+<script th:src="@{/js/pageSample.js}"></script>
+<script src="/js/insert_form.js"></script>
+</html>

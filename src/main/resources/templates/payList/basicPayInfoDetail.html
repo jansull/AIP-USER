@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/pageSample.css}" rel="stylesheet">
+    <link th:href="@{/css/basicPayInfoDetail.css}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/047f82d071.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<header class="header-nav">
+        <span class="header-flex-box header-logo">
+
+            <span class="sidebar-action-border">
+                <img th:src="@{/img/header_sidebar.png}" id="sidebar-action-icon">
+            </span>
+            <a href="/dashboard">AIP System</a>
+        </span>
+
+    <span class="header-pageName header-flex-box" >결제 목록 / 전체 결제 목록</span><!-- 현재 페이지 이름 -->
+
+    <span class="header-flex-box">
+            <span class="header-flex-three">
+                <span class="header-icon">
+                    <a href="/pdf/aip_20240221.pdf" target="_blank"><img th:src="@{/img/help.png}" id="help_icon"></a>
+                    <a href="/chartDetail"><img th:src="@{/img/chart.png}" id="chart_icon"></a>
+                    <a href="/memo/paging"><img th:src="@{/img/memo.png}" id="memo_icon"></a>
+                </span>
+                <img th:src="@{/img/profileImg.png}" id="profile-img">
+                <span id="submenu-trigger">
+                    <a href="#">Nacamora</a>
+                    <div id="submenu">
+                        <a href="/user/update">비밀번호 변경</a>
+                        <a href="/logout">로그아웃</a>
+                    </div>
+                </span>
+            </span>
+        </span>
+</header>
+<main>
+    <form class="basic-form" id="basic-form">
+    <div class="main-cell">
+
+        <div class="basic-main">
+            <div class="basic-header">
+
+                <div>
+                    <span>회원 ID : </span>
+                    <span>BASIC-</span>
+                    <span class="customer-id">1313</span>
+                    <span id="payUpdateAt"></span>
+                    <span id="payStatus"></span>
+                </div>
+                <div>
+
+                    <button type="button" th:if="${!#strings.equals(payInfo.paymentStatus, 'paid')}" onclick="toggleEdit()">편집</button>
+                    <button type="button" th:if="${!#strings.equals(payInfo.paymentStatus, 'paid')}" onclick="fnDelPay()" >삭제</button>
+                    <button type="button" th:if="${#strings.equals(payInfo.paymentStatus, 'paid')}" onclick="moveReceipt()">신용 구매도표 보기</button>
+                    <button type="button" onclick="location.href='/list'"><i class="fa-solid fa-chevron-left"></i>목록으로</button>
+                </div>
+            </div>
+            <div class="basic-body">
+                <div class="basic-input-group">
+                    <label>
+                        <span>등록일시</span>
+                        <input type="date" id="createDate" disabled>
+                    </label>
+                    <label>
+
+                    </label>
+                    <label>
+                        <span>고객명</span>
+                        <input type="text" id="customerName" name="customerName" class="editable" disabled th:value="${customerInfo.customerName}">
+                        <input type="hidden" id="customerId" name="customerId" th:value="${customerInfo.id}">
+                        <input type="hidden" id="paymentId" name="paymentId" th:value="${payInfo.id}">
+                        <input type="hidden" id="customerPhone" name="customerPhone" th:value="${customerInfo.customerPhone}">
+                        <input type="hidden" id="customerAddress" name="customerAddress" th:value="${customerInfo.customerAddress}">
+                    </label>
+                    <label>
+                        <span>E-Mail</span>
+                        <input type="email" id="customerEmail" name="customerEmail" class="editable" disabled th:value="${customerInfo.customerEmail}">
+                    </label>
+                    <label class="basic-title">
+                        <span>제목</span>
+                        <input type="text" id="paymentTitle" name="paymentTitle" class="editable" disabled th:value="${payInfo.paymentTitle}">
+                    </label>
+                    <label class="basic-custom-input">
+                        <span>결제 설정</span>
+                        <input type="text"  th:value="${payInfo.paymentType}" disabled>
+                    </label>
+                    <label class="basic-custom-input">
+                        <span>결제구분</span>
+                        <select id="paymentBizTo" disabled>
+                            <option value="BtoB">B To B</option>
+                            <option value="BtoC">B To C</option>
+                        </select>
+                    </label>
+
+                </div>
+            </div>
+            <div class="basic-footer">
+                <div class="basic-footer-header">
+                    <span>결제 물품 정보 등록</span>
+                    <span>
+                        <button type="button" onclick="fnAddTable()" disabled><i class="fa-solid fa-plus"></i>행 추가</button>
+                        <button type="button" onclick="fnDelTable()" disabled><i class="fa-solid fa-minus"></i>행 삭제</button>
+                    </span>
+                </div>
+                <div class="basic-footer-table">
+                    <table id="basic-proTable">
+                        <thead>
+                        <tr>
+                            <th>
+                                <label>
+                                    <input type="checkbox" class="editable" disabled>
+                                </label>
+                            </th>
+                            <th>No.</th>
+                            <th>상품명</th>
+                            <th>수량</th>
+                            <th>단가</th>
+                            <th>금액</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="product, index : ${productInfo}">
+                            <td><label>
+                                <input type="checkbox" class="editable" name="productId" disabled th:value="${product.id}">
+                            </label></td>
+                            <td th:text="${index.count}"></td>
+                            <td>
+                                <label>
+                                    <input type="text" name="productName" class="editable" disabled th:value="${product.productName}">
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="text" name="productTotalItems" class="editable" onchange="updatePrice(this)" disabled th:value="${product.productTotalItems}">
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="text" name="productPrice" class="editable" onchange="updatePrice(this)" disabled th:value="${product.productPrice}">
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="text" name="productAmount" readonly th:value="${product.productAmount}" >
+                                </label>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>합계</td>
+                            <td></td>
+                            <td></td>
+                            <td ><input type="text" id="totalAmount" name="totalAmount" readonly> </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="basic-real-footer">
+                    <button type="button" onclick="moveQrPay()">즉시 결제</button>
+                    <button type="button" onclick="moveQrPay()">QR 결제</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    </form>
+</main>
+<aside>
+        <span id="sidebar">
+            <nav>
+                <ul class="sidebar-ul">
+                    <li onclick="location.href='/dashboard'" > <!-- 현재 페이지 의 해당하는 span태그에 style="color: blue;" 써주세여  -->
+                        <span>
+                            <img th:src="@{/img/sidebar_dashboard.png}" id="sidebar_dashboard_icon">
+                            <span class="sidebar-nav-text">DashBoard</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li onclick="location.href='/insert_form'">
+                        <span>
+                            <img th:src="@{/img/sidebar_card.png}" id="sidebar_card_icon">
+                            <span class="sidebar-nav-text">결제등록</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li id="payList-toggle">
+                        <span class="nowPage">
+                            <img th:src="@{/img/sidebar_payList.png}" id="sidebar_payList_icon">
+                            <span class="sidebar-nav-text">결제목록</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-down" ></i>
+                    </li>
+                    <li class="payList-nav" onclick="location.href='/list'">
+                        <span class="payList nowPage">
+                            <i class="fa-solid fa-square fa-2xs"></i>
+                            <span class="sidebar-nav-text">전체 결제 목록</span>
+                        </span>
+                        <!-- <i class="fa-solid fa-chevron-right"></i> -->
+                    </li>
+                    <li class="payList-nav" onclick="location.href='/autoList'">
+                        <span class="payList">
+                            <i class="fa-solid fa-square fa-2xs"></i>
+                            <span class="sidebar-nav-text" >자동 결제 목록</span>
+                        </span>
+                        <!-- <i class="fa-solid fa-chevron-right"></i> -->
+                    </li>
+
+                </ul>
+            </nav>
+            </span>
+</aside>
+</body>
+<script th:src="@{/js/pageSample.js}"></script>
+<script th:src="@{/js/basicPayInfoDetail.js}"></script>
+<script th:inline="javascript">
+
+    let customerId = [[${customerInfo.id}]];
+
+    let paymentType = [[${payInfo.paymentType}]]; // basic, auto, stop
+    console.log(paymentType);
+
+    let productInfo = [[${productInfo}]]; // product 목록
+
+    // 콤마찍기..
+    let totalNum = null;
+    let priceNum = null;
+    // 총합 계산
+    let totalAmount = 0; // 총합
+    for (let i = 0; i < productInfo.length; i++) {
+        totalAmount += productInfo[i].productAmount;
+
+    }
+    document.getElementById("totalAmount").value = totalAmount;
+    // 총합 계산 end
+
+    //날짜 년월일 형식
+    let payCreate = [[${payInfo.paymentCreateAt}]];
+    let createDate = dateProcess(payCreate);
+    document.getElementById("createDate").value = createDate;
+    //날짜 년월일 형식 end
+
+    // 결제 업데이트 시간 확인
+    let payUpdateAt = new Date([[${payInfo.paymentUpdateAt}]]);
+    let formattedUpdateAt = formatDate(payUpdateAt);
+
+    /**
+     * @method : formatDate
+     * @desc : 날짜 형식 변화 yyyy-MM-dd
+     * @author : LeeChanSin
+     */
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+
+        return `${year}-${month}-${day} / ${hours}:${minutes}:${seconds}`;
+    }
+
+    // payUpdateAt을 특정 ID를 가진 요소에 적용
+    document.getElementById('payUpdateAt').innerText = `(${formattedUpdateAt})`;
+
+
+    // BtoB BtoC select value 삽입
+    let paymentBizTo = [[${payInfo.paymentBizTo}]];
+    document.getElementById("paymentBizTo").value = paymentBizTo;
+    // BtoB BtoC select value 삽입 end
+
+    // 결제 상태 확인 status
+    let paymentStatus = [[${payInfo.paymentStatus}]];
+    let payStatus = null;
+    let backgroundColor = '';
+    let textColor = '';
+
+    if (paymentStatus === 'wait') {
+        payStatus = '미결제';
+        backgroundColor = 'orange';
+        textColor = 'white';
+    } else if (paymentStatus === 'paid') {
+        payStatus = '결제완료';
+        backgroundColor = '#2D5CBE';
+        textColor = 'white';
+        // 다른 상태에 대한 스타일을 설정합니다.
+    } else if (paymentStatus === 'stop') {
+        payStatus = '결제중지';
+        // 다른 상태에 대한 스타일을 설정합니다.
+    } else {
+        payStatus = '에러';
+        backgroundColor = 'red';
+        textColor = 'white';
+    }
+
+    const payStatusElement = document.getElementById('payStatus');
+    payStatusElement.innerText = payStatus;
+    payStatusElement.style.backgroundColor = backgroundColor;
+    payStatusElement.style.color = textColor;
+
+
+
+
+</script>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>paymentdetails</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        </thead>
+        <br>
+        <tbody>
+        <tr class="table-info">
+            <th colspan="2" class="text-center">결제정보</th>
+        </tr>
+        <tr class="table-light" >
+            <th scope="row" class="text-center">이름</th>
+            <td class="text-end" th:text="${paymentDetailsDTO.customerName}"></td>
+        </tr>
+        <tr class="table-light">
+            <th scope="row" class="text-center">이메일</th>
+            <td class="text-end" th:text="${paymentDetailsDTO.customerEmail}">
+        </tr>
+        <tr class="table-light">
+            <th scope="row" class="text-center" >날짜</th>
+            <td class="text-end" th:text="${paymentDetailsDTO.UpdateAt}">
+
+        </tr >
+        <tr class="table-light">
+            <th scope="row" class="text-center">문서번호</th>
+            <td class="text-end" th:text="${paymentDetailsDTO.id}">
+        </tr>
+        <tr class="table-light">
+            <th scope="row" class="text-center">제목</th>
+            <td class="text-end" th:text="${paymentDetailsDTO.orderName}">
+        </tr>
+        <tr class="table-light">
+            <th scope="row" class="text-center">결제 구분</th>
+            <td class="text-end" th:text="${paymentDetailsDTO.bizTo}">
+        </tr>
+
+        <tr class="table-light">
+            <th scope="row" class="text-center">결제 금액</th>
+            <td class="text-end" th:text="${paymentDetailsDTO.amount}">        </tr>
+
+        <tr>
+            <td class="text-center" colspan="2">
+                <img id="qrCodeImage" src="" alt="QR Code">
+            </td>
+        </tr>
+
+        <tr class="table-light">
+            <th scope="row" class="text-center">url</th>
+            <td class="text-center" colspan="2"><a id="paymentLink" href="">결제링크</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="text-end">
+        <a id="checkoutButton" class="btn btn-primary" th:href="@{'/toss/checkout?id=' + ${paymentDetailsDTO.id}}">결제</a>
+        <button type="button" class="btn btn-warning">결제 완료 등록</button>
+        <button type="button" class="btn btn-light">뒤로가기</button>
+    </div>
+</div>
+
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<script>
+    var url = '/toss/checkout?id=' + [[${paymentDetailsDTO.id}]];
+
+    // URL 인코딩
+    var encodedUrl = encodeURIComponent(url);
+
+    // QR 코드 생성
+    var qrCode = new QRCode(document.getElementById('qrCodeImage'), {
+        text: url,
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    document.getElementById('qrCodeImage').src = qrCode._el.childNodes[0].toDataURL("image/png");
+
+    // 결제 링크 설정
+    var paymentLink = document.getElementById('paymentLink');
+    paymentLink.href = url;
+    paymentLink.innerText = url;
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+.chart-title-box{
+    width: 90%;
+    margin: auto;
+    border-bottom: 1px solid #E5E9F0;
+    padding: 20px;
+}
+
+#chart-title{
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+
+}
+
+
+.tab-bar{
+    text-align: center;
+    padding: 10px;
+}
+.tab-bar .tab-btn{
+    cursor: pointer;
+}
+.gap {
+    margin: 0 30px; /** 원하는 간격 값으로 조절 */
+}
+
+
+/** 차트 css */
+.custom-tooltip{
+    background-color: #2D5CBE;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+.chart-box{
+
+    height: 100%;
+}
+
+
+.main-cell{
+    height: 100%;
+}
+
+.dashboard-chart{
+    height: 100%;
+}

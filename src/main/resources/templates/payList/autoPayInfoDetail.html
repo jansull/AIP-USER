@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/pageSample.css}" rel="stylesheet">
+    <link th:href="@{/css/autopayInfoDetail.css}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/047f82d071.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+</head>
+<body>
+<header class="header-nav">
+        <span class="header-flex-box header-logo">
+
+            <span class="sidebar-action-border">
+                <img th:src="@{/img/header_sidebar.png}" id="sidebar-action-icon">
+            </span>
+            <a href="/dashboard">AIP System</a>
+        </span>
+
+    <span class="header-pageName header-flex-box" >결제 목록 / 자동 결제 목록</span><!-- 현재 페이지 이름 -->
+
+    <span class="header-flex-box">
+            <span class="header-flex-three">
+                <span class="header-icon">
+                    <a href="/pdf/aip_20240221.pdf" target="_blank"><img th:src="@{/img/help.png}" id="help_icon"></a>
+                    <a href="/chartDetail"><img th:src="@{/img/chart.png}" id="chart_icon"></a>
+                    <a href="/memo/paging"><img th:src="@{/img/memo.png}" id="memo_icon"></a>
+                </span>
+                <img th:src="@{/img/profileImg.png}" id="profile-img">
+                <span id="submenu-trigger">
+                    <a href="#">Nacamora</a>
+                    <div id="submenu">
+                        <a href="/user/update">비밀번호 변경</a>
+                        <a href="/logout">로그아웃</a>
+                    </div>
+                </span>
+            </span>
+    </span>
+</header>
+<main>
+    <form class="auto-form" id="auto-form">
+        <div class="main-cell">
+            <div class="auto-main">
+                <div class="auto-header">
+                    <div>
+                        <span>회원 ID : </span>
+                        <span>AUTO-<span class="customer-id">1313</span> 자동결제 상세내역</span>
+                    </div>
+                    <div>
+                        <button type="button" onclick="toggleEdit()" th:if="${#strings.equals(autoPayInfo.autoStatus, 'paid')}" >편집</button>
+                        <button type="button" onclick="location.href='/autoList'"><i class="fa-solid fa-chevron-left"></i>목록으로</button>
+                    </div>
+                </div>
+                <div class="auto-body">
+                    <div class="auto-input-group">
+                        <label>
+                            <span>등록일시</span>
+                            <input readonly type="date" id="createDate">
+                        </label>
+                        <label>
+                            <span>고객명</span>
+                            <input type="text" id="customerName" name="customerName" class="editable" disabled th:value="${customerInfo.customerName}">
+                            <input type="hidden" name="customerId" th:value="${customerInfo.id}">
+                            <input type="hidden" name="paymentId" th:value="${payInfo.id}">
+                            <input type="hidden" id="autoPaymentId" name="autoPaymentId" th:value="${autoPayInfo.id}">
+                        </label>
+                        <label>
+                            <span>E-Mail</span>
+                            <input type="email" id="customerEmail" name="customerEmail" class="editable" disabled th:value="${customerInfo.customerEmail}">
+                        </label>
+                        <label class="phone-inputs">
+                            <span>연락번호</span>
+                                <input type="text" class="editable" id="customerPhone" name="customerPhone" disabled th:value="${customerInfo.customerPhone}">
+                        </label>
+                        <label>
+                            <span>주소</span>
+                            <input type="text" id="customerAddress" class="editable" name="customerAddress" disabled th:value="${customerInfo.customerAddress}">
+                        </label>
+                        <label class="auto-custom-input">
+                            <span>자동결제 금액</span>
+                            <input type="text" id="paymentFirstPay" name="totalAmount" readonly th:value="${payInfo.totalAmount}">
+                        </label>
+                        <label class="auto-custom-input">
+                            <span>결제구분</span>
+                            <input type="text" id="paymentBizTo" name="paymentBizTo" readonly th:value="${payInfo.paymentBizTo}">
+                        </label>
+                        <label>
+                            <span>마지막 결제일</span>
+                            <input type="date" th:value="${autoPayInfo.autoPayDate}" readonly>
+                        </label>
+                        <label class="auto-custom-input">
+                            <span>마지막 거래상태</span>
+                            <input type="text" id="paymentStatus" name="paymentStatus" readonly th:value="${payInfo.paymentStatus}">
+                        </label>
+                        <label class="auto-custom-input">
+                            <span>다음 결제일</span>
+                            <input type="text" readonly th:if="${#strings.equals(autoPayInfo.autoStatus, 'stop')}" value="거래 중지">
+                            <input type="date" th:if="${#strings.equals(autoPayInfo.autoStatus, 'paid')}" id="paymentNextTime" name="paymentNextTime" class="editable" disabled>
+                        </label>
+                        <label class="auto-custom-input">
+                            <span>결제 회차</span>
+                            <input type="text" id="autoPayCount" name="autoPayCount" readonly th:value="${autoPayInfo.autoPayCount + '회'}">
+                        </label>
+                        <label class="auto-memo">
+                            <span>메모</span>
+                            <input type="text"  id="paymentMemo" class="editable" name="paymentMemo" disabled th:value="${payInfo.paymentMemo}">
+                        </label>
+                    </div>
+                </div>
+                <div class="auto-footer" th:if="${#strings.equals(autoPayInfo.autoStatus, 'paid')}">
+                    <button type="button" onclick="fnAutoPayStop()">중지</button>
+                    <button type="button"><i class="fa-solid fa-credit-card"></i>카드정보 변경 요청</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</main>
+<aside>
+        <span id="sidebar">
+            <nav>
+                <ul class="sidebar-ul">
+                    <li onclick="location.href='/dashboard'" > <!-- 현재 페이지 의 해당하는 span태그에 style="color: blue;" 써주세여  -->
+                        <span>
+                            <img th:src="@{/img/sidebar_dashboard.png}" id="sidebar_dashboard_icon">
+                            <span class="sidebar-nav-text">DashBoard</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li onclick="location.href='/insert_form'">
+                        <span>
+                            <img th:src="@{/img/sidebar_card.png}" id="sidebar_card_icon">
+                            <span class="sidebar-nav-text">결제등록</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li id="payList-toggle">
+                        <span class="nowPage">
+                            <img th:src="@{/img/sidebar_payList.png}" id="sidebar_payList_icon">
+                            <span class="sidebar-nav-text">결제목록</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-down" ></i>
+                    </li>
+                    <li class="payList-nav" onclick="location.href='/list'">
+                        <span class="payList">
+                            <i class="fa-solid fa-square fa-2xs"></i>
+                            <span class="sidebar-nav-text">전체 결제 목록</span>
+                        </span>
+                        <!-- <i class="fa-solid fa-chevron-right"></i> -->
+                    </li>
+                    <li class="payList-nav" onclick="location.href='/autoList'">
+                        <span class="payList nowPage">
+                            <i class="fa-solid fa-square fa-2xs"></i>
+                            <span class="sidebar-nav-text" >자동 결제 목록</span>
+                        </span>
+                        <!-- <i class="fa-solid fa-chevron-right"></i> -->
+                    </li>
+
+                </ul>
+            </nav>
+            </span>
+</aside>
+</body>
+<script th:src="@{/js/pageSample.js}"></script>
+<script th:inline="javascript">
+    //날짜 년월일 형식
+
+    let CreateAt = [[${payInfo.paymentCreateAt}]];
+    let createDate = dateProcess(CreateAt);
+    document.getElementById("createDate").value = createDate;
+
+    let nextTime = [[${autoPayInfo.paymentNextTime}]];
+    let paymentNextTime;
+    if (nextTime) {
+        paymentNextTime = dateProcess(nextTime);
+        document.getElementById("paymentNextTime").value = paymentNextTime;
+    } else {
+        // nextTime이 빈 값인 경우에 대한 처리
+    }
+    //날짜 년월일 형식 end
+</script>
+<script th:src="@{/js/autoPayInfoDetail.js}"></script>
+</html>

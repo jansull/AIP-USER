@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/pageSample.css}" rel="stylesheet">
+    <link th:href="@{/css/list.css}" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://kit.fontawesome.com/047f82d071.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="header-nav">
+        <span class="header-flex-box header-logo">
+
+            <span class="sidebar-action-border">
+                <img th:src="@{/img/header_sidebar.png}" id="sidebar-action-icon">
+            </span>
+            <a href="/dashboard">AIP System</a>
+        </span>
+
+    <span class="header-pageName header-flex-box" >결제목록 / 전체 결제 목록</span><!-- 현재 페이지 이름 -->
+
+    <span class="header-flex-box">
+            <span class="header-flex-three">
+                <span class="header-icon">
+                    <a href="#"><img th:src="@{/img/help.png}" id="help_icon"></a>
+                    <a href="#"><img th:src="@{/img/chart.png}" id="chart_icon"></a>
+                    <a href="/memo/paging"><img th:src="@{/img/memo.png}" id="memo_icon"></a>
+                </span>
+                <img th:src="@{/img/profileImg.png}" id="profile-img">
+                <span id="submenu-trigger">
+                    <a href="#">Nacamora</a>
+                    <div id="submenu">
+                        <a href="#">정보 변경</a>
+                        <a href="/user/update">비밀번호 변경</a>
+                        <a href="/logout">로그아웃</a>
+                    </div>
+                </span>
+            </span>
+        </span>
+</header>
+<main>
+    <div class="main-cell">
+        <!-- 여기서 작업하시면 됩니다. -->
+        <div class="title">전체 결제 목록</div>
+        <button class="right_button" onclick="toggleContent()"><i class="fas fa-chevron-down"></i>상세 검색</button>
+        <div class="line"></div> <!-- 버튼 아래에 위치한 첫 번째 선 -->
+        <div class="expandableContent" id="expandableContent">
+            <form id="form" th:action="@{/search}" th:object="${searchDTO}" method="get">
+                <table class="date">
+                    <tr>
+                        <td colspan="2">
+                            <label class="re_time">조회기간</label>
+                            <input type="text" id="startDt" class="startDt" name="startDt" th:value="${startDt}" placeholder="yyyy-mm-dd"> ~
+                            <input type="text" id="endDt" class="endDt" name="endDt" th:value="${endDt}" placeholder="yyyy-mm-dd">
+                        </td>
+                        <td>
+                            <label class="status">상태유형</label>
+                            <input type="hidden" id="status" name="status" th:value="${status}">
+                            <button type="button" class="status-button" onclick="setStatus('')">전체</button>
+                            <button type="button" class="status-button" onclick="setStatus('paid')">결제</button>
+                            <button type="button" class="status-button" onclick="setStatus('wait')">미결제</button>
+                            <button type="button" class="status-button" onclick="setStatus('refund')">환불</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label class="right-drb"></label>
+                            <button type="button" class="date-range-button" data-months="1" onclick="setDateRange(1)">1개월</button>
+                            <button type="button" class="date-range-button" data-months="3" onclick="setDateRange(3)">3개월</button>
+                            <button type="button" class="date-range-button" data-months="6" onclick="setDateRange(6)">6개월</button>
+                            <button type="button" class="date-range-button" data-months="12" onclick="setDateRange(12)">1년</button>
+                        </td>
+                        <td>
+                            <label for="docNumber" class="docNumberName">문서번호</label>
+                            <input type="text" id="docNumber" class="docNumber" name="docNumber" th:value="${docNumber}" placeholder="문서번호를 입력해주세요.">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label for="customerName" class="customer">고객이름</label>
+                            <input type="text" id="customerName" class="customerName" name="customerName" th:value="${customerName}" placeholder="이름을 입력해주세요.">
+                        </td>
+                        <td>
+                            <label for="email" class="emailName">메일주소</label>
+                            <input type="email" id="email" class="email" name="email" th:value="${email}" placeholder="메일을 입력해주세요.">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="buttonName">
+                            <button type="button" class="reset" onclick="resetForm()">초기화</button>
+                            <button type="button" class="submit" onclick="submitForm()">조회</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="line2"></div> <!-- 버튼 아래에 위치한 두 번째 선 -->
+
+        <div class="delSearch">
+            <form id="deleteForm" action="/delete/{id}" method="post">
+                <!-- 선택된 결제 ID를 서버로 전송하기 위한 폼 -->
+                <input type="hidden" id="paymentIds" name="paymentIds">
+                <!-- 삭제 버튼 클릭 시 서버로 전송하도록 type을 submit으로 변경 -->
+                <button id="deleteButton" class="deleteButton" type="submit" onclick="deleteSelectedPayments()" disabled>삭제</button>
+            </form>
+            <form th:action="@{/list}" method="get" id="searchForm">
+                <input type="text" class="searchInput" id="searchInput" name="keyword" placeholder="검색어를 입력해 주세요">
+            </form>
+        </div>
+
+        <table class="custom-table" border="1">
+            <thead>
+            <tr>
+                <th class="selection-column">선택</th>
+                <th class="datetime-column">등록일시</th>
+                <th class="doc-number-column">문서번호</th>
+                <th class="customer-name-column">고객명</th>
+                <th class="title-column">제목</th>
+                <th class="amount-column">금액</th>
+                <th class="status-column">상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="payment : ${payList}">
+                <td><label><input type="checkbox" class="selection-column" name="selectedPayment" th:value="${payment.id}" onchange="toggleDeleteButton()" /></label></td>
+                <td class="datetime-column" th:onclick="|location.href='@{/payInfoDetail/(id=${payment.id})}'|" th:text="${#temporals.format(payment.UpdateAt, 'yyyy-MM-dd / HH:mm:ss')}"></td>
+                <td class="doc-number-column" th:onclick="|location.href='@{/payInfoDetail/(id=${payment.id})}'|" th:text="${payment.id}"></td>
+                <td class="customer-name-column" th:onclick="|location.href='@{/payInfoDetail/(id=${payment.id})}'|" th:text="${payment.customerName}"></td>
+                <td class="title-column" th:onclick="|location.href='@{/payInfoDetail/(id=${payment.id})}'|" th:text="${#strings.length(payment.paymentTitle) &gt; 20} ? ${#strings.substring(payment.paymentTitle, 0, 20)} + '...' : ${payment.paymentTitle}"></td>
+                <td class="amount-columns" th:onclick="|location.href='@{/payInfoDetail/(id=${payment.id})}'|" th:text="${payment.totalAmount}"></td>
+                <td class="status-column" th:onclick="|location.href='@{/payInfoDetail/(id=${payment.id})}'|" th:text="${payment.paymentStatus}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="footer-line">
+            <select class="pageSelect" id="pageSelect" onchange="changePageSize()">
+                <option value="10" th:selected="${payList.size == 10}">10건</option>
+                <option value="30" th:selected="${payList.size == 30}">30건</option>
+                <option value="50" th:selected="${payList.size == 50}">50건</option>
+            </select>
+            <p class="payCount">(데이터 총 <span th:text="${payCount}"></span>건)</p>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <!-- 이전 페이지 -->
+                    <li th:if="${payList.hasPrevious()}" class="page-item">
+                        <a class="page-link" th:href="@{(${isListPage} ? '/list' + '?page=' + (${payList.getNumber()} - 1) + '&amp;size=' + ${payList.getSize()} + '&amp;keyword=' + ${keyword} : '/search' + '?page=' + (${payList.getNumber()} - 1) + '&amp;size=' + ${payList.getSize()} + '&amp;startDt=' + ${startDt} + '&amp;endDt=' + ${endDt} + '&amp;status=' + ${status} + '&amp;docNumber=' + ${docNumber} + '&amp;customerName=' + ${customerName} + '&amp;email=' + ${email})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <!-- 페이지 번호 -->
+                    <li th:each="i : ${#numbers.sequence((payList.number - 3) < 0 ? 0 : (payList.number - 3), (payList.number + 3) > (payList.totalPages - 1) ? (payList.totalPages - 1) : (payList.number + 3))}" th:class="${payList.number == i} ? 'page-item active' : 'page-item'">
+                        <a class="page-link" th:href="@{(${isListPage} ? '/list' + '?page=' + ${i} + '&amp;size=' + ${payList.getSize()} + '&amp;keyword=' + (${keyword} ?: '') : '/search' + '?page=' + ${i} + '&amp;size=' + ${payList.getSize()} + '&amp;startDt=' + (${startDt} ?: '') + '&amp;endDt=' + (${endDt} ?: '') + '&amp;status=' + (${status} ?: '') + '&amp;docNumber=' + (${docNumber} ?: '') + '&amp;customerName=' + (${customerName} ?: '') + '&amp;email=' + (${email} ?: ''))}" th:text="${i + 1}"></a>
+                    </li>
+                    <!-- 다음 페이지 -->
+                    <li th:if="${payList.hasNext()}" class="page-item">
+                        <a class="page-link" th:href="@{(${isListPage} ? '/list' + '?page=' + (${payList.getNumber()} + 1) + '&amp;size=' + ${payList.getSize()} + '&amp;keyword=' + (${keyword} ?: '') : '/search' + '?page=' + (${payList.getNumber()} + 1) + '&amp;size=' + ${payList.getSize()} + '&amp;startDt=' + ${startDt} + '&amp;endDt=' + ${endDt} + '&amp;status=' + ${status} + '&amp;docNumber=' + ${docNumber} + '&amp;customerName=' + ${customerName} + '&amp;email=' + ${email})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <script th:src="@{/js/list.js}"></script>
+
+    </div>
+</main>
+<aside>
+        <span id="sidebar">
+            <nav>
+                <ul class="sidebar-ul">
+                    <li onclick="location.href='/dashboard'" > <!-- 현재 페이지 의 해당하는 span태그에 style="color: blue;" 써주세여  -->
+                        <span>
+                            <img th:src="@{/img/sidebar_dashboard.png}" id="sidebar_dashboard_icon">
+                            <span class="sidebar-nav-text">DashBoard</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li onclick="location.href='/insert_form'">
+                        <span>
+                            <img th:src="@{/img/sidebar_card.png}" id="sidebar_card_icon">
+                            <span class="sidebar-nav-text">결제등록</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li >
+                        <span class="nowPage" id="payList-toggle">
+                            <img th:src="@{/img/sidebar_payList.png}" id="sidebar_payList_icon">
+                            <span class="sidebar-nav-text">결제목록</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-down" ></i>
+                    </li>
+                    <li class="payList-nav" onclick="location.href='/list'">
+                        <span class="payList nowPage">
+                            <i class="fa-solid fa-square fa-2xs"></i>
+                            <span class="sidebar-nav-text">전체 결제 목록</span>
+                        </span>
+                        <!-- <i class="fa-solid fa-chevron-right"></i> -->
+                    </li>
+                    <li class="payList-nav" onclick="location.href='/autoList'">
+                        <span class="payList">
+                            <i class="fa-solid fa-square fa-2xs"></i>
+                            <span class="sidebar-nav-text" >자동 결제 목록</span>
+                        </span>
+                        <!-- <i class="fa-solid fa-chevron-right"></i> -->
+                    </li>
+
+                </ul>
+            </nav>
+            </span>
+</aside>
+</body>
+<script th:src="@{/js/pageSample.js}"></script>
+</html>

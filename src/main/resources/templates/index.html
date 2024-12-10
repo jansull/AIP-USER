@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header, Sidebar, Container Layout</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" charset="UTF-8"></script>
+</head>
+<body>
+<header>
+    <h1>AIP System</h1>
+    <!-- 헤더 내용을 추가할 수 있습니다 -->
+</header>
+
+<div class="container">
+    <div class="side-bar">
+        <div class="menu">
+            <div class="item"><a href="#"><i class="fas fa-th-large"></i>Dashboard<i class="fas fa-angle-right dropdown"></i></a></div>
+            <div class="item"><a href="#"><i class="fas fa-credit-card"></i>결제등록<i class="fas fa-angle-right dropdown"></i></a></div>
+            <div class="item">
+                <a class="sub-btn"><i class="fas fa-list"></i>결제목록<i class="fas fa-angle-right dropdown"></i></a>
+                <div class="sub-menu">
+                    <a href="list.html" class="sub-item"><i class="fas fa-square"></i>전체 결제 목록<i class="fas fa-angle-right dropdown"></i></a>
+                    <a href="list.html" class="sub-item"><i class="fas fa-square"></i>자동 결제 목록<i class="fas fa-angle-right dropdown"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- 컨테이너 내용을 추가할 수 있습니다 -->
+    </div>
+</div>
+
+<!-- 필요한 경우에는 여기에 추가적인 섹션, 푸터 등을 추가할 수 있습니다 -->
+<script type="text/javascript">
+    $(document).ready(function(){
+       // 드롭다운 토글 기능 추가
+       $('.sub-btn').click(function(){
+           event.stopPropagation(); // 이벤트 전파 중단
+           $(this).next('.sub-menu').slideToggle();
+           $(this).find('.dropdown').toggleClass('rotate');
+       });
+
+       // 메뉴 아이템 활성화 설정
+       $('.item a').click(function() {
+           $('.item a').removeClass('active');
+           $(this).addClass('active');
+       });
+
+       // 서브 메뉴 아이템 활성화 설정
+       $('.sub-item').click(function() {
+           $('.sub-item').removeClass('active');
+           $(this).addClass('active');
+       });
+   });
+   $(document).ready(function() {
+       // 서브 메뉴 항목 클릭 시
+       $('.sub-item').click(function(event) {
+           event.preventDefault(); // 기본 동작 방지
+           var page = $(this).attr('href'); // 클릭된 링크의 href 속성 가져오기
+           $('.main-content').load(page); // main-content 컨테이너에 새로운 페이지 로드
+       });
+   });
+</script>
+</body>
+</html>

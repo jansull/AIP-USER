@@ -1,0 +1,143 @@
+/** 여기에 CSS 스타일을 추가합니다 */
+*{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: "Poppins", sans-serif;
+}
+
+body {
+   background-color: #ddd;
+   margin: 0;
+   padding: 0;
+   display: flex;
+   flex-direction: column;
+   height: 100vh;
+   background-size: cover;
+   background-position: center;
+}
+
+header {
+   background-color: #ddd;
+   color: blue;
+   padding: 50px;
+   margin-right: 30px; /** 헤더 오른쪽 간격 조정 */
+   margin-left: 30px; /** 헤더 왼쪽 간격 조정 */
+}
+
+.container {
+   display: flex;
+   flex: 1;
+   margin-top: 20px; /** 컨테이너와 사이드바 사이의 간격 조정 */
+}
+
+.side-bar {
+   background-color: #f2f2f2;
+   width: 300px;
+   padding: 20px;
+   border-radius: 10px; /** 사이드바를 사각형으로 만들기 */
+   margin-right: 30px; /** 사이드바 오른쪽 간격 조정 */
+   margin-left: 30px; /** 사이드바 왼쪽 간격 조정 */
+   margin-bottom: 30px; /** 사이드바 아래 간격 조정 */
+   backdrop-filter: blur(15px);
+   overflow-y: auto;
+}
+
+.side-bar .menu{
+   width: 100%;
+   margin-top: 10px;
+}
+
+.side-bar .menu .item{
+   position: relative;
+   cursor: pointer;
+}
+
+.side-bar .menu .item a{
+   color: black;
+   font-size: 16px;
+   text-decoration: none;
+   display: block;
+   padding: 5px 15px;
+   line-height: 40px;
+}
+
+.side-bar .menu .item a:hover{
+   color: blue; /** 아이콘의 색상을 파란색으로 설정 */
+   transition: 0.3s ease;
+}
+
+.side-bar .menu .item a:hover .fas {
+    color: blue; /** 아이콘의 색상을 파란색으로 설정 */
+}
+
+.side-bar .menu .item i{
+   margin-right: 10px;
+}
+
+.side-bar .menu .item a .dropdown{
+   position: absolute;
+   color: gray;
+   right: 0;
+   margin: 12px;
+   transition: 0.3s ease;
+}
+
+.side-bar .menu .item .sub-menu{
+   background: rgba(255, 255, 255, 0.1);
+   display: none;
+}
+
+.side-bar .menu .item .sub-menu{
+   padding-left: 15px;
+}
+
+.rotate{
+   transform: rotate(90deg);
+}
+
+.side-bar .menu .item a.active {
+    color: blue; /** 선택된 메뉴 항목의 텍스트 색상을 파란색으로 설정 */
+}
+
+.side-bar .menu .item a.active .fas {
+    color: blue; /** 선택된 메뉴 항목의 아이콘 색상을 파란색으로 설정 */
+}
+
+.fa-square {
+    font-size: 6px; /** 아이콘의 크기를 24픽셀로 설정 */
+    vertical-align: middle;
+}
+
+.main-content {
+   flex: 1;
+   padding: 20px;
+   background-color: #f2f2f2;
+   border-radius: 10px; /** 컨테이너를 사각형으로 만들기 */
+   margin-right: 30px; /** 컨테이너 오른쪽 간격 조정 */
+   margin-left: 30px; /** 컨테이너 왼쪽 간격 조정 */
+   margin-bottom: 30px; /** 사이드바 아래 간격 조정 */
+}
+
+/** list.html에 관련된 css */
+
+.hidden {
+   display: none;
+}
+button {
+   padding: 8px 12px; /** 버튼 내부 여백 조정 */
+   font-size: 14px; /** 폰트 크기 설정 */
+   width: 100px; /** 버튼 너비 설정 */
+}
+#toggleButton {
+   display: flex; /** Flexbox 컨테이너로 설정 */
+   margin-left: auto; /** 상세 검색 버튼을 오른쪽으로 이동 */
+}
+.btn-group {
+   display: flex;
+   margin-top: 5px;
+   margin-right: 10px;
+}
+
+
+

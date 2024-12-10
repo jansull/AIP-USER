@@ -1,0 +1,378 @@
+button {
+    cursor: pointer;
+}
+
+.main-cell {
+    overflow: hidden;
+    position: relative;
+}
+
+.title {
+    margin-top: 30px;
+    margin-left: 50px;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.right_button {
+    position: absolute;
+    right: 50px;
+    top: 25px;
+    background-color: white;
+    border: 1px solid blue;
+    color: #2D5CBE;
+    padding: 5px 13px;
+    border-radius: 3px;
+    font-size: 10px;
+}
+
+.rotate-up {
+    transform: rotate(-180deg);
+    transition: transform 0.3s ease;
+}
+
+.line {
+    height: 1px;
+    background-color: #DDDDDD;
+    margin: 30px 50px 0 50px;
+    /** 버튼 위 여백 조정 */
+    transition: height 0.3s ease;
+    /** 선이 펼쳐지는 애니메이션 */
+}
+
+.expandableContent {
+    overflow: hidden;
+    /** 내용이 감추어짐 */
+    transition: max-height 0.3s ease;
+    /** 내용이 펼쳐지는 애니메이션 */
+    max-height: 0;
+    /** 초기에는 감추어진 상태 */
+}
+
+.expandableContent.active {
+    max-height: 1000px;
+    /** 적절한 최대 높이로 변경 */
+}
+
+.line2 {
+    height: 0;
+    background-color: #DDDDDD;
+    margin: 15px 50px 0 50px;
+    /** 선 간 간격 조정 */
+    transition: height 0.3s ease;
+    /** 선이 펼쳐지는 애니메이션 */
+}
+
+.expandableContent.active+.line2 {
+    height: 1px;
+    /** 확장될 때 선의 높이 조정 */
+}
+
+.date {
+    margin-top: 15px;
+    border-collapse: separate;
+    border-spacing: 15px;
+}
+
+.re_time {
+    font-size: 11px;
+    margin: 0px 40px 0px 40px;
+}
+
+.startDt, .endDt {
+    max-width: 150px;
+    min-width: 100px;
+    width: 50%;
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid #DDDDDD;
+}
+
+.status {
+    font-size: 11px;
+    margin: 0px 40px 0px 215px;
+}
+
+.status-button {
+    background-color: #DDDDDD;
+    border: 2px solid #CCCCCC;
+    color: #888888;
+    width: 80px;
+    height: 30px;
+    font-size: 11px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-right: -6px;
+}
+
+.status-button.active {
+    background-color: white;
+    color: black;
+}
+
+.right-drb {
+    margin-right: 130px;
+}
+
+.date-range-button {
+    background-color: #DDDDDD;
+    border: 2px solid #CCCCCC;
+    color: #888888;
+    width: 80px;
+    height: 30px;
+    font-size: 11px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-right: -6px;
+}
+
+.date-range-button.active {
+    background-color: white;
+    color: black;
+}
+
+.docNumberName {
+    font-size: 11px;
+    margin: 0px 40px 0px 215px;
+}
+
+.docNumber {
+    max-width: 350px;
+    min-width: 150px;
+    width: 318px;
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid #DDDDDD;
+}
+
+.docNumber::placeholder {
+    font-size: 11px;
+}
+
+.customer {
+    font-size: 11px;
+    margin: 0px 40px 0px 40px;
+}
+
+.customerName {
+    max-width: 350px;
+    min-width: 150px;
+    width: 318px;
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid #DDDDDD;
+}
+
+.customerName::placeholder {
+    font-size: 11px;
+}
+
+.emailName {
+    font-size: 11px;
+    margin: 0px 40px 0px 215px;
+}
+
+.email {
+    max-width: 350px;
+    min-width: 150px;
+    width: 318px;
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid #DDDDDD;
+}
+
+.email::placeholder {
+    font-size: 11px;
+}
+
+.buttonName {
+    text-align: right;
+}
+
+.reset {
+    background-color: white;
+    border: 1px solid blue;
+    color: #2D5CBE;
+    padding: 5px 30px;
+    border-radius: 3px;
+    font-size: 10px;
+}
+
+.reset:hover {
+    background-color: #2D5CBE;
+    color: white;
+}
+
+.reset:active {
+    background-color: #4E8DF5;
+    color: white;
+}
+
+.submit {
+    background-color: #2D5CBE;
+    color: white;
+    border: 1px solid blue;
+    padding: 5px 35px;
+    border-radius: 3px;
+    font-size: 10px;
+}
+
+.submit:hover {
+    border: 1px solid blue;
+    background-color: #8CEF;
+    color: blue;
+}
+
+.submit:active {
+    border: 1px solid blue;
+    background-color: #4E8DF5;
+    color: white;
+}
+
+.delSearch {
+    display: flex;
+}
+
+.deleteButton {
+    margin: 15px 0px 0px 50px;
+    background-color: white;
+    border: 1px solid blue;
+    color: #2D5CBE;
+    padding: 5px 15px;
+    border-radius: 3px;
+    font-size: 10px;
+}
+
+.deleteButton:hover {
+    background-color: #2D5CBE;
+    color: white;
+}
+
+.deleteButton:active {
+    background-color: #4E8DF5;
+    color: white;
+}
+
+.deleteButton:disabled {
+    background-color: #DDDDDD;
+    border: 2px solid #CCCCCC;
+    color: #888888;
+    opacity: 0.5; /** 예시: 투명도 조절 */
+    cursor: not-allowed; /** 예시: 커서 스타일 변경 */
+}
+
+.searchInput {
+    margin: 15px 0px 0px 750px;
+    max-width: 350px;
+    min-width: 150px;
+    width: 250px;
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid #DDDDDD;
+}
+
+.searchInput::placeholder {
+    font-size: 11px;
+}
+
+.custom-table {
+    border-collapse: collapse; /** 테이블 셀 사이의 경계를 합치도록 설정 */
+    border-color: #CCCCCC;
+    margin: 10px 0px 0px 50px;
+}
+
+.custom-table th {
+    background-color: #DDDDDD;
+    color: black;
+    font-size: 12px;
+    height: 25px;
+}
+
+.custom-table td {
+    font-size: 12px;
+    font-weight: bold;
+    height: 25px;
+}
+
+.selection-column {
+    width: 50px;
+}
+
+.datetime-column {
+    width: 150px;
+    text-align: center;
+}
+
+.doc-number-column {
+    width: 140px;
+    text-align: center;
+}
+
+.customer-name-column {
+    width: 130px;
+    text-align: center;
+}
+
+.title-column {
+    width: 290px;
+}
+
+.amount-column {
+    width: 120px;
+}
+
+.amount-columns {
+    width: 140px;
+    text-align: right;
+}
+
+.status-column {
+    width: 140px;
+    text-align: center;
+}
+
+.footer-line {
+    display: flex;
+    margin-top: 5px;
+}
+
+.pageSelect {
+    background-color: white;
+    border: 2px solid #CCCCCC;
+    color: black;
+    padding: 7px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    margin: 25px 5px 0px 50px;
+}
+
+.payCount {
+    font-size: 11px;
+    font-weight: bold;
+    margin: 32px 220px 0px 0px;
+}
+
+.pagination li {
+    display: inline-block;
+    margin-right: -6px; /** 페이지 버튼 사이의 간격을 조절할 수 있습니다. */
+}
+
+.page-link {
+    display: inline-block;
+    padding: 3px 8px;
+    border: 1px solid #ccc; /** 네모 칸의 테두리 스타일 */
+    border-radius: 2px; /** 네모 칸의 모서리를 둥글게 만듭니다. */
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+}
+
+.page-link:hover {
+    background-color: #f0f0f0; /** 호버 시 배경 색상 변경 */
+}
+
+.page-item.active .page-link {
+    background-color: black; /** 선택된 페이지 번호의 배경 색상 */
+    color: white; /** 선택된 페이지 번호의 글자 색상 */
+}

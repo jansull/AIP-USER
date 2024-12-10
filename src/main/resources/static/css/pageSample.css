@@ -1,0 +1,205 @@
+*{
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #F7F8FA;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            margin-left: 20px;
+
+            display: grid;
+            grid-template-columns: 20% 75%;
+            grid-template-rows: 100px auto 50px;
+            grid-template-areas:
+                'header header'
+                'side main';
+            transition: grid-template-columns 0.5s ease;
+            font-size: 1vw;
+            min-width: 1070px;
+            min height: 730px;
+        }
+        a{
+            text-decoration: none;
+        }
+        i{
+            margin: 0px 5px;
+        }
+        header{
+            grid-area: header;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2D5CBE;
+        }
+        header a{
+            color: black;
+        }
+
+        .header-logo{
+            position: relative;
+        }
+
+
+        .header-logo a{
+            position: absolute;
+            top: 11%;
+        }
+
+        .sidebar-action-border{
+            border: 1px solid white;
+            border-radius: 100%;
+            background-color: white;
+            display: inline-block;
+
+        }
+        #sidebar-action-icon{
+            cursor: pointer;
+            padding: 10px;
+            object-fit: cover;
+
+        }
+        .collapsed {
+            grid-template-columns: 10% 85%;
+        }
+        .header-flex-box:nth-child(1){
+            width: 20%;
+        }
+        .header-flex-box:nth-child(2){
+            width: 50%;
+            margin-left: 13px;
+        }
+        .header-flex-box:nth-child(3){
+            width: 30%;
+        }
+        .header-flex-three{
+             display: flex;
+             align-items: center;
+             float: right;
+             height: 100%;
+             width: 100%;
+             justify-content: end;
+        }
+        .header-icon{
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icon a{
+            margin-left: 20px
+        }
+        #profile-img{
+            width: 30px;
+            margin-bottom: 5px;
+            vertical-align: middle;
+        }
+
+
+
+
+        main{
+            grid-area: main;
+            border: 1px solid #E5E9F0;
+            border-radius: 10px;
+            background-color: white;
+        }
+        aside{
+            grid-area: side;
+        }
+        .item{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+
+        }
+        .header-nav{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #sidebar{
+            background-color: white;
+            border: 1px solid #E5E9F0;
+            border-radius: 10px;
+            width: 80%;
+            display: inline-block;
+            height: 100%;
+            font-size: 1em;
+
+        }
+        .sidebar-ul{
+            list-style-type: none;
+            padding-top: 10px;
+
+
+        }
+        .sidebar-ul li{
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            margin: 20px 0px;
+            cursor: pointer;
+        }
+        #sidebar_dashboard_icon{
+            filter: grayscale(100%);
+        }
+
+        #submenu-trigger{
+            position: relative;
+            display: inline-block;
+            z-index: 100;
+        }
+        #submenu {
+            display: none;
+            position: absolute;
+            left: -35px;
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 15px;
+
+        }
+
+        #submenu a {
+            display: block;
+            color: black;
+            text-decoration: none;
+            margin-bottom: 5px;
+        }
+
+        #submenu-trigger:hover #submenu {
+            display: block;
+        }
+        #submenuLhover #submenu{
+            display: block;
+        }
+
+        .payList{
+            margin-left: 15px;
+        }
+        .payList-nav {
+            display: block;
+            opacity: 0; /** 초기에는 투명하게 설정 */
+            transition: opacity 0.2s; /** opacity 속성에 대한 트랜지션 효과 적용 */
+        }
+
+        .hidden {
+            opacity: 0; /** 투명하게 설정하여 숨김 */
+            pointer-events: none; /** 투명한 상태에서 이벤트 처리 비활성화 */
+        }
+
+        .visible {
+            opacity: 1; /** 불투명하게 설정하여 표시 */
+            pointer-events: auto; /** 이벤트 처리 활성화 */
+        }
+
+        .nowPage span{
+            color: #2D5CBE; /** 이미지와 텍스트의 색상을 파란색으로 변경합니다. */
+        }
+
+        .nowPage img{
+            filter: invert(28%) sepia(78%) saturate(1146%) hue-rotate(196deg) brightness(96%) contrast(92%);
+        }

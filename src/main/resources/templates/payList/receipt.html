@@ -1,0 +1,163 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/047f82d071.js" crossorigin="anonymous"></script>
+    <link th:href="@{/css/receipt.css}" rel="stylesheet">
+</head>
+<body>
+    <div class="receipt-container">
+        <div class="receipt-box">
+            <div class="backIcon"><i onclick="history.back()" class="fa-solid fa-rotate-left fa-2x"></i></div>
+            <div>AIP System</div>
+            <div id="paymentTitle" th:text="${payInfo.paymentTitle}"></div>
+            <div>ㅁ가명점 정보ㅁ</div>
+            <table>
+                <tr>
+                    <td class="tdTitle">점포명</td>
+                    <td>aip상점</td>
+                </tr>
+                <tr>
+                    <td class="tdTitle">주소</td>
+                    <td>명동역 충무로역 사이 어딘가</td>
+                </tr>
+                <tr>
+                    <td class="tdTitle">연락처</td>
+                    <td>02-1234-12314</td>
+                </tr>
+            </table>
+            <div>ㅁ결제정보ㅁ</div>
+            <table>
+                <tr>
+                    <td class="tdTitle">카드사</td>
+                    <td id="card-company"></td>
+                </tr>
+                <tr>
+                    <td class="tdTitle">결제 날짜</td>
+                    <td id="card-requestedAt"></td>
+                </tr>
+                <tr>
+                    <td class="tdTitle">결제 금액</td>
+                    <td class="card-totalAmount"></td>
+                </tr>
+                <tr>
+                    <td class="tdTitle">고객명</td>
+                    <td th:text="${customerInfo.customerName}"></td>
+                </tr>
+                <tr>
+                    <td class="tdTitle">지불방법</td>
+                    <td id="card-method"></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th>상품명</th>
+                    <th>수량</th>
+                    <th>단가</th>
+                    <th>금액</th>
+                </tr>
+                <tr th:each="proList : ${productInfo}">
+                    <td th:text="${proList.productName}"></td>
+                    <td th:text="${proList.productTotalItems}"></td>
+                    <td th:text="${proList.productPrice +'원'}"></td>
+                    <td th:text="${proList.productAmount +'원'}"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>합계</td>
+                    <td></td>
+                    <td class="card-totalAmount"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+<script th:inline="javascript">
+
+    // 사용 예시
+    var cardInfoJson  = [[${cardInfo}]];
+    var cardInfo = JSON.parse(cardInfoJson);
+
+    var cardCompany = getCardCompany(cardInfo.card.issuerCode);
+
+    var requestedAt = new Date(cardInfo.requestedAt);
+    var formattedDate = requestedAt.getFullYear() + "-" + ("0" + (requestedAt.getMonth() + 1)).slice(-2) + "-" + ("0" + requestedAt.getDate()).slice(-2) + " " + ("0" + requestedAt.getHours()).slice(-2) + ":" + ("0" + requestedAt.getMinutes()).slice(-2) + ":" + ("0" + requestedAt.getSeconds()).slice(-2);
+    document.getElementById("card-company").innerText = cardCompany;
+    document.getElementById("card-requestedAt").innerText = formattedDate;
+    document.getElementById("card-method").innerText = cardInfo.method;
+
+
+    // 클래스 이름을 가진 모든 요소 선택
+    var elements = document.getElementsByClassName("card-totalAmount");
+
+    // 요소의 목록을 순회하며 값을 설정
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].innerText = cardInfo.totalAmount + '원';
+    }
+    /**
+     * @method : getCardCompany
+     * @desc : 결제 issuerCode 로 카드회사 변환
+     * @author : LeeChanSin
+     */
+    function getCardCompany(issuerCode) {
+        if (issuerCode === '3K') {
+            return '기업 BC';
+        } else if (issuerCode === '46') {
+            return '광주은행';
+        } else if (issuerCode === '71') {
+            return '롯데카드';
+        } else if (issuerCode === '30') {
+            return 'KDB산업은행';
+        } else if (issuerCode === '31') {
+            return 'BC카드';
+        } else if (issuerCode === '51') {
+            return '삼성카드';
+        } else if (issuerCode === '38') {
+            return '새마을금고';
+        } else if (issuerCode === '41') {
+            return '신한카드';
+        } else if (issuerCode === '62') {
+            return '신협';
+        } else if (issuerCode === '36') {
+            return '씨티카드';
+        } else if (issuerCode === '33') {
+            return '우리BC카드(BC 매입)';
+        } else if (issuerCode === 'W1') {
+            return '우리카드(우리 매입)';
+        } else if (issuerCode === '37') {
+            return '우체국예금보험';
+        } else if (issuerCode === '39') {
+            return '저축은행중앙회';
+        } else if (issuerCode === '35') {
+            return '전북은행';
+        } else if (issuerCode === '42') {
+            return '제주은행';
+        } else if (issuerCode === '15') {
+            return '카카오뱅크';
+        } else if (issuerCode === '3A') {
+            return '케이뱅크';
+        } else if (issuerCode === '24') {
+            return '토스뱅크';
+        } else if (issuerCode === '21') {
+            return '하나카드';
+        } else if (issuerCode === '61') {
+            return '현대카드';
+        } else if (issuerCode === '11') {
+            return 'KB국민카드';
+        } else if (issuerCode === '91') {
+            return 'NH농협카드';
+        } else if (issuerCode === '34') {
+            return 'Sh수협은행';
+        } else {
+            return '페이코'; // 알 수 없는 코드일 경우
+        }
+    }
+
+
+
+</script>
+</html>

@@ -1,0 +1,35 @@
+/** 차트 상단 */
+.chart-header{
+    display: grid;
+    grid-template-columns: 30% 20% 30%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tab-bar{
+    text-align: center;
+    display:flex;
+    justify-content: space-around;
+}
+.tab-bar .tab-btn{
+    cursor: pointer;
+}
+
+/** 차트 css */
+.custom-tooltip{
+    background-color: #2D5CBE;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+.chart-box{
+    border: 1px solid #E5E9F0;
+    height: 100%;
+}
+#chart-title{
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px;
+    padding-bottom: 0px;
+}
